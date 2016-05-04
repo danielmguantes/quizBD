@@ -1,0 +1,9 @@
+body{
+	background: #333
+	font-size: large;
+}
+
+
+#page:after{content:"Smartphone Layout";}
+.no-narrow{display:none;}
+footer,input{font-size: xx-large;}
