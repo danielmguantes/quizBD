@@ -17,6 +17,20 @@ exports.load= function(req, res, next,quizId) {
 
 // GET /quizzes
 exports.index = function(req, res, next) {
+	if(req.query.search){
+		var search=req.query.search;
+		var searchArray=search.split(" ");
+		search="%";
+		search+=searchArray.join("%");
+		search+="%";
+
+		models.Quiz.findAll({where: ["question like ?",search]})
+		.then(function(quizzes){
+			var orderedQuizzes=quizzes.sort(sortQuizzes);
+			res.render('quizzes/index.ejs', { quizzes: orderedQuizzes});
+		})
+	}
+
 	models.Quiz.findAll()
 		.then(function(quizzes) {
 			res.render('quizzes/index.ejs', { quizzes: quizzes});
@@ -38,3 +52,25 @@ exports.check = function(req, res) {
 	var result = answer === req.quiz.answer ? 'Correcta' : 'Incorrecta';
 	res.render('quizzes/result', { quiz: req.quiz, result: result, answer: answer });
 };
+
+
+
+
+
+
+
+/*
+* Funcion para ordenar la preguntas buscadas con search 
+* en exports.index
+*/
+function sortQuizzes(q1,q2){
+	console.log(q1.question.toLowerCase()+","+q2.question.toLowerCase());
+	 if (q1.question.toLowerCase() < q2.question.toLowerCase())
+	    return -1;
+	  else if (q1.question.toLowerCase() > q2.question.toLowerCase())
+	    return 1;
+	  else 
+	    return 0;
+}
+
+
