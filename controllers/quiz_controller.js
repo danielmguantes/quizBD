@@ -53,9 +53,22 @@ exports.check = function(req, res) {
 	res.render('quizzes/result', { quiz: req.quiz, result: result, answer: answer });
 };
 
+exports.new=function(req,res,next){
+	var quiz =models.Quiz.build({question:"",answer:""});//solo para inicializar vistas con strings vacios
+	res.render('quizzes/new',{quiz:quiz});
+}
 
+exports.create=function(req,res,next){
+	var quiz =models.Quiz.build({question:req.body.quiz.question,answer:req.body.quiz.answer});///esta en body pues es post
 
-
+	quiz.save({fields:["question","answer"]})
+	.then(function(quiz){
+		res.redirect('/quizzes');
+	})
+	.catch(function(error){
+			next(error);
+	});
+}
 
 
 
