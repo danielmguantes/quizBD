@@ -16,6 +16,10 @@ exports.load= function(req, res, next,quizId) {
 
 };
 
+exports.format=function(req, res, next,format) {
+	req.format= format || "html";
+	next();
+}
 
 // GET /quizzes
 exports.index = function(req, res, next) {
@@ -35,6 +39,7 @@ exports.index = function(req, res, next) {
 
 	models.Quiz.findAll()
 		.then(function(quizzes) {
+        if(req.format=="json")res.send(JSON.stringify(quizzes, null, 3));
 			res.render('quizzes/index.ejs', { quizzes: quizzes});
 		})
 		.catch(function(error) {next(error);});
@@ -44,6 +49,7 @@ exports.index = function(req, res, next) {
 // GET /quizzes/:id
 exports.show = function(req, res, next) {
 	var answer=req.query.answer || '';
+    if(req.format=="json")res.send(JSON.stringify(req.quiz, null, 3));
 	res.render('quizzes/show',{quiz: req.quiz, answer: answer});
 };
 
