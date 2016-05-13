@@ -63,10 +63,12 @@ exports.create=function(req,res,next){
 
 	quiz.save({fields:["question","answer"]})
 	.then(function(quiz){
+        req.flash('success', 'Quiz creado con éxito.');
 		res.redirect('/quizzes');
 	})
 	.catch(function(error){
-			next(error);
+			req.flash('error','Error al crear el Quiz: '+error.message);
+		next(error);
 	});
 }
 
