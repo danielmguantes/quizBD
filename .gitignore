@@ -2,3 +2,7 @@ node_modules
 npm-debug.log
 quiz.sqlite
 .env
+certs/quiz-2016-cert.pem
+certs/quiz-2016-csr.pem
+certs/quiz-2016-key.pem
+
