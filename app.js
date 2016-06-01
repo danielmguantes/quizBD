@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var partials=require('express-partials');
 var session=require('express-session');
 var flash=require('express-flash');
+var methodOverride=require('method-override');
 
 var routes = require('./routes/index');
 
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs');
 
 app.use(partials());
 app.use(flash());
+app.use(methodOverride('_method',{methods: ["POST", "GET"]}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -29,6 +31,7 @@ app.use(cookieParser());
 app.use(session({secret: "Quiz 2016",
                   resave:false,
                   saveUninitialized: true}));
+
 
 
 app.use(express.static(path.join(__dirname, 'public')));
