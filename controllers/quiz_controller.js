@@ -67,8 +67,13 @@ exports.new=function(req,res,next){
 }
 
 exports.create=function(req,res,next){
-	var quiz =models.Quiz.build({question:req.body.quiz.question,answer:req.body.quiz.answer});///esta en body pues es post
-	quiz.save({fields:["question","answer"]})
+
+	var authorId = req.session.user && req.session.user.id || 0;
+
+	var quiz = models.Quiz.build({ question: req.body.quiz.question, 
+  	                             answer:   req.body.quiz.answer,
+                                 AuthorId: authorId } );///esta en body pues es post
+	quiz.save({fields:["question","answer","AuthorId"]})
 	.then(function(quiz){
 		req.flash('success', 'Quiz creado con éxito.');
 		res.redirect('/quizzes');
