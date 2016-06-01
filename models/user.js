@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
         password: {
             type: DataTypes.STRING,
             validate: { notEmpty: {msg: "Falta password"}},
-            set: function (password) {//establece el valor de password
+            set: function (password) {
                     // String aleatorio usado como salt.
                     this.salt = Math.round((new Date().valueOf() * Math.random())) + '';
                     this.setDataValue('password', encryptPassword(password, this.salt));
@@ -25,6 +25,12 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
+      },
+      { instanceMethods: {
+          verifyPassword: function (password) {
+            return encryptPassword(password, this.salt) === this.password;
+          }
+        }    
       });
 };
 

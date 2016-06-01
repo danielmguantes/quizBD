@@ -12,13 +12,23 @@
     <div id="page">
 
       <header class="main">
+        <div class="right">
+          <% if (!session.user) { %>
+              <a href="/users/new">Registrarse</a> 
+              <a href="/session">Login</a>
+          <% } else { %>
+              <%= session.user.username %> 
+              <a href="/users/<%= session.user.id %>">Perfil</a>
+              <a href="/session?_method=DELETE">Logout</a>
+          <% } %>
+        </div>
         <h2>Quiz<span class="no-narrow">: el juego de las preguntas</span></h2>
       </header>
 
       <nav class="main" role="navigation">
         <a href="/">Inicio</a>
-       <a href="/quizzes.html">Preguntas</a>
-          <a href="/users">Usuarios</a>
+        <a href="/quizzes.html">Preguntas</a>
+        <a href="/users">Usuarios</a>
         <a href="/author">Créditos</a>
       </nav>
 
@@ -58,13 +68,14 @@
        </section>
 
 
+
       <section class="main">
           <div><%-body%></div>
       </section>
 
       <footer>
         <a href="http://es.wikipedia.org/wiki/Quiz">¿Qué es un Quiz?</a><br>
-        <a href="https://github.com/danielmguantes/quizBD">GitHub del proyecto</a>
+        <a href="https://github.com/r-sendra/quiz">GitHub del proyecto</a>
       </footer>
     </div>  
   </body>
